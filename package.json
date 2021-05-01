@@ -1,0 +1,85 @@
+{
+  "name": "todo-app",
+  "version": "1.0.0",
+  "description": "todo-app",
+  "author": "Hamed Bensaad <abdesselam.bensaad@gmail.com>",
+  "main": "public/electron.js",
+  "homepage": "./",
+  "private": true,
+  "build": {
+    "productName": "todo-app",
+    "appId": "com.electron.todo-app",
+    "files": [
+      "build/**/*",
+      "server/**/*.js"
+    ],
+    "extraResources": [
+      "server/database"
+    ],
+    "directories": {
+      "buildResources": "assets",
+      "output": "dist"
+    },
+    "win": {
+      "icon": "assets/win/icon.png",
+      "target": [
+        "nsis"
+      ]
+    },
+    "linux": {
+      "target": [
+        "deb"
+      ],
+      "category": "Development"
+    },
+    "nsis": {
+      "runAfterFinish": false
+    }
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "seeds": "nodemon ./server/seeds/data.js",
+    "dev": "concurrently \"yarn start\" \"wait-on http://localhost:3000 && electron .\"",
+    "prepack": "yarn build",
+    "pack": "electron-builder build",
+    "postinstall": "electron-builder install-app-deps"
+  },
+  "dependencies": {
+    "@testing-library/jest-dom": "^5.11.4",
+    "@testing-library/react": "^11.1.0",
+    "@testing-library/user-event": "^12.1.10",
+    "axios": "^0.21.1",
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "react-scripts": "4.0.3",
+    "sequelize": "^6.6.2",
+    "sqlite3": "^5.0.2",
+    "web-vitals": "^1.0.1"
+  },
+  "devDependencies": {
+    "concurrently": "^6.0.2",
+    "electron": "^12.0.6",
+    "electron-builder": "^22.10.5",
+    "nodemon": "^2.0.7",
+    "wait-on": "^5.3.0"
+  },
+  "proxy": "http://localhost:50505",
+  "eslintConfig": {
+    "extends": "react-app"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  }
+}
