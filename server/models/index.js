@@ -1,6 +1,5 @@
 "use strict";
 
-const { app } = require("electron");
 const fs = require("fs");
 const path = require("path");
 let Sequelize = require("sequelize");
@@ -8,12 +7,17 @@ let basename = path.basename(__filename);
 
 let config;
 
-if (app.isPackaged) {
-  config = require("../config/config.js").ELECTRON_PROD;
-  console.log("ELECTRON_PROD");
-} else {
+if (process.env.NODE_ENV === "NODE") {
   config = require("../config/config.js").ELECTRON_DEV;
-  console.log("ELECTRON_DEV");
+} else {
+  const { app } = require("electron");
+  if (app.isPackaged) {
+    config = require("../config/config.js").ELECTRON_PROD;
+    console.log("ELECTRON_PROD");
+  } else {
+    config = require("../config/config.js").ELECTRON_DEV;
+    console.log("ELECTRON_DEV");
+  }
 }
 
 var db = {};

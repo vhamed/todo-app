@@ -40,7 +40,9 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "seeds": "nodemon ./server/seeds/data.js",
-    "dev": "concurrently \"yarn start\" \"wait-on http://localhost:3000 && electron .\"",
+    "server": "export NODE_ENV=NODE && nodemon ./server/app.js",
+    "dev": "concurrently \"yarn server\" \"yarn start\" \"wait-on http://localhost:3000 && electron .\"",
+    "electron-dev": "concurrently \"yarn start\" \"wait-on http://localhost:3000 && electron .\"",
     "prepack": "yarn build",
     "pack": "electron-builder build",
     "postinstall": "electron-builder install-app-deps"

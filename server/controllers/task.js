@@ -1,13 +1,13 @@
 const models = require("../models");
 
-module.exports.createProduct = (req, res) => {
+module.exports.createTask = (req, res) => {
   models.task
     .create(req.body)
-    .then((product) => {
-      if (!product) {
-        return res.status(422).send({ msg: "Product could not be created." });
+    .then((task) => {
+      if (!task) {
+        return res.status(422).send({ msg: "Task could not be created." });
       }
-      res.status(201).send(product);
+      res.status(201).send(task);
     })
     .catch((e) => {
       console.log("e", e);
@@ -15,7 +15,7 @@ module.exports.createProduct = (req, res) => {
     });
 };
 
-module.exports.updateProduct = (req, res) => {
+module.exports.updateTask = (req, res) => {
   models.task
     .update(req.body, {
       where: {
@@ -25,8 +25,8 @@ module.exports.updateProduct = (req, res) => {
     .then(() => {
       return models.task.findByPk(req.params.id);
     })
-    .then((product) => {
-      res.status(200).send(product);
+    .then((task) => {
+      res.status(200).send(task);
     })
     .catch((e) => {
       console.log("e", e);
@@ -34,11 +34,11 @@ module.exports.updateProduct = (req, res) => {
     });
 };
 
-module.exports.getProducts = (req, res) => {
+module.exports.getTasks = (req, res) => {
   models.task
-    .findAll({ order: [["IsActive", "DESC"]] })
-    .then((products) => {
-      res.status(200).send(products);
+    .findAll()
+    .then((tasks) => {
+      res.status(200).send(tasks);
     })
     .catch((e) => {
       console.log("e", e);
@@ -46,11 +46,23 @@ module.exports.getProducts = (req, res) => {
     });
 };
 
-module.exports.getProduct = (req, res) => {
+module.exports.getTask = (req, res) => {
   models.task
     .findByPk(req.params.id)
-    .then((product) => {
-      res.status(200).send(product);
+    .then((task) => {
+      res.status(200).send(task);
+    })
+    .catch((e) => {
+      console.log("e", e);
+      res.status(500).send(e);
+    });
+};
+
+module.exports.deleteTask = (req, res) => {
+  models.task
+    .destroy(req.params.id)
+    .then((task) => {
+      res.status(200).send(task);
     })
     .catch((e) => {
       console.log("e", e);

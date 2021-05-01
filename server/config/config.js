@@ -1,5 +1,6 @@
 const path = require("path");
 const process = require("process");
+const resourcesPath = process.resourcesPath || __dirname;
 
 module.exports = {
   ELECTRON_DEV: {
@@ -9,7 +10,7 @@ module.exports = {
   },
   ELECTRON_PROD: {
     dialect: "sqlite",
-    storage: path.join(process.resourcesPath, "backend/database/db.sqlite3"),
+    storage: path.join(resourcesPath, "server/database/db.sqlite3"),
     logging: false
   }
 };
