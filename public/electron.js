@@ -9,7 +9,7 @@ const launchWindow = async (app) => {
 
   // create window
   const mainWindow = new BrowserWindow({
-    title: "Parfum",
+    title: "Todo app",
     show: false,
     width: 1200,
     height: 800,

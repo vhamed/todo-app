@@ -1,6 +1,6 @@
 {
-  "short_name": "parfum",
-  "name": "parfum",
+  "short_name": "todo-app",
+  "name": "todo-app",
   "icons": [
     {
       "src": "favicon.ico",
