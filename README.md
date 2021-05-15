@@ -1,5 +1,5 @@
-# todometer
+# Todo App
 
-[todometer fork of](https://github.com/cassidoo/todometer.git) A simple, meter-based to-do list built with Electron and React
+A simple, meter-based to-do list built with Electron and React [todometer fork](https://github.com/cassidoo/todometer.git)
 
 ![todometer](assets/screenshot.png)
