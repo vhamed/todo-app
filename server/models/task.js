@@ -6,29 +6,27 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
       defaultValue: DataTypes.UUIDV4
     },
-    title: {
-      type: DataTypes.STRING,
-      allowNull: false
-    },
     description: {
       type: DataTypes.STRING,
       allowNull: true
     },
-    color: {
+    recurring: {
+      type: DataTypes.BOOLEAN,
+      allowNull: false,
+      defaultValue: false
+    },
+    cronExpression: {
       type: DataTypes.STRING,
       allowNull: true
     },
-    startTime: {
+    doneAt: {
       type: DataTypes.STRING,
-      allowNull: false
-    },
-    finishTime: {
-      type: DataTypes.STRING,
-      allowNull: false
+      allowNull: false,
+      defaultValue: new Date().toISOString()
     },
     status: {
       type: DataTypes.ENUM,
-      values: ["pending", "start", "pause", "done", "failed"],
+      values: ["pending", "paused", "completed"],
       allowNull: false,
       defaultValue: "pending"
     }

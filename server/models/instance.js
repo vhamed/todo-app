@@ -1,20 +1,19 @@
 module.exports = (sequelize, DataTypes) => {
   const Instance = sequelize.define("instance", {
-    startTime: {
-      type: DataTypes.STRING,
-      allowNull: false
+    id: {
+      primaryKey: true,
+      type: DataTypes.UUID,
+      allowNull: false,
+      defaultValue: DataTypes.UUIDV4
     },
-    finishTime: {
+    doneAt: {
       type: DataTypes.STRING,
-      allowNull: false
-    },
-    overdue: {
-      type: DataTypes.STRING,
-      allowNull: true
+      allowNull: false,
+      defaultValue: new Date().toISOString()
     },
     status: {
       type: DataTypes.ENUM,
-      values: ["pending", "start", "pause", "done", "failed"],
+      values: ["pending", "paused", "completed"],
       allowNull: false,
       defaultValue: "pending"
     }

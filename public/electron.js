@@ -1,11 +1,11 @@
 const { app, BrowserWindow } = require("electron");
 const path = require("path");
 const process = require("process");
-const { startServer } = require(path.join(__dirname, "../server/app.js"));
+// const { startServer } = require(path.join(__dirname, "../server/app.js"));
 
 const launchWindow = async (app) => {
   // start api
-  await startServer();
+  // await startServer();
 
   // create window
   const mainWindow = new BrowserWindow({

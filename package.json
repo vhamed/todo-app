@@ -48,11 +48,13 @@
     "postinstall": "electron-builder install-app-deps"
   },
   "dependencies": {
+    "@reach/accordion": "^0.15.1",
     "@testing-library/jest-dom": "^5.11.4",
     "@testing-library/react": "^11.1.0",
     "@testing-library/user-event": "^12.1.10",
     "axios": "^0.21.1",
     "cors": "^2.8.5",
+    "date-fns": "^2.21.3",
     "express": "^4.17.1",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
@@ -65,6 +67,7 @@
     "concurrently": "^6.0.2",
     "electron": "^12.0.6",
     "electron-builder": "^22.10.5",
+    "node-sass": "^5.0.0",
     "nodemon": "^2.0.7",
     "wait-on": "^5.3.0"
   },
