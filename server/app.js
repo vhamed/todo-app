@@ -14,15 +14,21 @@ const app = express();
 
 const task = require(path.join(__dirname, "./routes/task"));
 
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 app.use(cors());
 
 app.use("/tasks", task);
 
 // app.use("/auth", auth);
 
-module.exports.startServer = async () => {
+const startServer = async () => {
   await models.sequelize.sync({ force: false });
   app.listen(PORT, () => {
     console.log(`Server is listening on PORT: ${PORT}`);
   });
 };
+
+startServer();
+
+module.exports = { startServer };

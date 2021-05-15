@@ -19,6 +19,7 @@ import alldone from "../img/alldone.svg";
 function ItemList() {
   const dispatch = useAppReducer();
   const { pending, paused, completed } = useItems();
+  console.log("pending", pending);
 
   return (
     <div className="item-list">
@@ -26,8 +27,8 @@ function ItemList() {
       <AddItemForm />
       {pending.length > 0 ? (
         <>
-          {pending.map(item => {
-            return <Item item={item} key={item.key} />;
+          {pending.map((item) => {
+            return <Item item={item} key={item.id} />;
           })}
         </>
       ) : (
@@ -44,8 +45,8 @@ function ItemList() {
             </AccordionButton>
             <AccordionPanel className={styles.panel}>
               {paused &&
-                paused.map(item => {
-                  return <Item item={item} key={item.key} />;
+                paused.map((item) => {
+                  return <Item item={item} key={item.id} />;
                 })}
             </AccordionPanel>
           </AccordionItem>
@@ -57,8 +58,8 @@ function ItemList() {
             </AccordionButton>
             <AccordionPanel className={styles.panel}>
               {completed &&
-                completed.map(item => {
-                  return <Item item={item} key={item.key} />;
+                completed.map((item) => {
+                  return <Item item={item} key={item.id} />;
                 })}
             </AccordionPanel>
           </AccordionItem>

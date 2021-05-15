@@ -1,25 +1,37 @@
 import React, { useRef } from "react";
 import { useAppReducer } from "../AppContext";
+import axios from "axios";
 
 import styles from "./AddItemForm.module.scss";
+
+const createTask = async (data) => {
+  let newTask = await axios.post("http://localhost:50505/tasks", data);
+  Promise.resolve(newTask);
+};
 
 // Form to populate todo items
 function AddItemForm() {
   const dispatch = useAppReducer();
   let inputRef = useRef();
 
-  function addItem(e) {
+  async function addItem(e) {
+    e.preventDefault();
     const newItem = {
       text: inputRef.current.value,
-      key: Date.now(),
       status: "pending"
     };
+    console.log("newItem.text", newItem.text);
     if (!!newItem.text.trim()) {
-      dispatch({ type: "ADD_ITEM", item: newItem });
+      const createdItem = await axios.post(
+        "http://localhost:50505/tasks",
+        newItem
+      );
+      console.log("createdItem.data", createdItem.data);
+      dispatch({ type: "ADD_ITEM", item: createdItem.data });
+      inputRef.current.value = "";
+      inputRef.current.focus();
     }
-    e.preventDefault();
-    inputRef.current.value = "";
-    inputRef.current.focus();
+    console.log("after if block");
   }
 
   return (

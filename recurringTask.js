@@ -6,11 +6,7 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
       defaultValue: DataTypes.UUIDV4
     },
-    title: {
-      type: DataTypes.STRING,
-      allowNull: false
-    },
-    description: {
+    text: {
       type: DataTypes.STRING,
       allowNull: true
     },

@@ -6,16 +6,7 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
       defaultValue: DataTypes.UUIDV4
     },
-    description: {
-      type: DataTypes.STRING,
-      allowNull: true
-    },
-    recurring: {
-      type: DataTypes.BOOLEAN,
-      allowNull: false,
-      defaultValue: false
-    },
-    cronExpression: {
+    text: {
       type: DataTypes.STRING,
       allowNull: true
     },

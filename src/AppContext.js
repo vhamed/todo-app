@@ -1,6 +1,6 @@
-import React, { createContext, useContext, useReducer } from "react";
-import { loadState, saveState } from "./local-storage";
+import React, { createContext, useContext, useReducer, useEffect } from "react";
 import { format } from "date-fns";
+import axios from "axios";
 
 export const AppContext = createContext();
 
@@ -15,9 +15,9 @@ export function useAppReducer() {
 export function useItems() {
   const { items } = useAppState();
 
-  const pending = items.filter(item => item.status === "pending");
-  const paused = items.filter(item => item.status === "paused");
-  const completed = items.filter(item => item.status === "completed");
+  const pending = items.filter((item) => item.status === "pending");
+  const paused = items.filter((item) => item.status === "paused");
+  const completed = items.filter((item) => item.status === "completed");
 
   return { pending, paused, completed };
 }
@@ -35,36 +35,33 @@ const appStateReducer = (state, action) => {
   };
 
   switch (action.type) {
+    case "LOAD_ITEMS": {
+      const newState = { ...state, items: action.items };
+      return newState;
+    }
     case "ADD_ITEM": {
       const newState = { ...state, items: state.items.concat(action.item) };
-      saveState(newState);
       return newState;
     }
     case "UPDATE_ITEM": {
-      const newItems = state.items.map(i => {
-        if (i.key === action.item.key) {
-          return Object.assign({}, i, {
-            status: action.item.status
-          });
-        }
-        return i;
-      });
+      let newItems = [...state.items];
+      let idx = newItems.findIndex((i) => i.id === action.item.id);
+      console.log("newItem", action.item.status);
+      newItems[idx] = action.item;
       const newState = { ...state, items: newItems };
-      saveState(newState);
       return newState;
     }
     case "DELETE_ITEM": {
       const newState = {
         ...state,
-        items: state.items.filter(item => item.key !== action.item.key)
+        items: state.items.filter((item) => item.id !== action.item.id)
       };
-      saveState(newState);
       return newState;
     }
     case "RESET_ALL": {
       const newItems = state.items
-        .filter(item => item.status !== "completed")
-        .map(i => {
+        .filter((item) => item.status !== "completed")
+        .map((i) => {
           if (i.status === "paused") {
             return Object.assign({}, i, {
               status: "pending"
@@ -73,7 +70,6 @@ const appStateReducer = (state, action) => {
           return i;
         });
       const newState = { ...state, items: newItems, date: currentDate };
-      saveState(newState);
       return newState;
     }
     default:
@@ -82,27 +78,36 @@ const appStateReducer = (state, action) => {
 };
 
 export function AppStateProvider({ children }) {
-  let initialState = loadState();
-
-  if (initialState === undefined) {
-    let nd = new Date();
-
-    initialState = {
-      items: [],
-      date: {
-        day: format(nd, "dd"),
-        dayDisplay: format(nd, "d"),
-        month: format(nd, "MM"),
-        monthDisplay: format(nd, "MMM"),
-        year: format(nd, "y"),
-        weekday: format(nd, "EEEE")
-      }
-    };
-  }
-
-  saveState(initialState);
+  let nd = new Date();
+  const initialState = {
+    items: [],
+    date: {
+      day: format(nd, "dd"),
+      dayDisplay: format(nd, "d"),
+      month: format(nd, "MM"),
+      monthDisplay: format(nd, "MMM"),
+      year: format(nd, "y"),
+      weekday: format(nd, "EEEE")
+    }
+  };
 
   const value = useReducer(appStateReducer, initialState);
+  console.log("value", value);
+
+  useEffect(() => {
+    console.log("useEffect");
+    const fetchTasks = async () => {
+      try {
+        const loadedItems = await axios.get("http://localhost:50505/tasks");
+        console.log("items", loadedItems.data);
+        value[1]({ type: "LOAD_ITEMS", items: loadedItems.data });
+      } catch (e) {
+        console.log("e", e);
+      }
+    };
+    fetchTasks();
+  }, []);
+
   return (
     <div className="App">
       <AppContext.Provider value={value}>{children}</AppContext.Provider>
